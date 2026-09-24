@@ -49,11 +49,10 @@ flow: **React UI → Express API → external translation service**.
 - `node-fetch` to call the translation provider server-side
 
 **Translation API**
-- [MyMemory Translation API](https://mymemory.translated.net/) — free,
-  reliable, and requires **no API key** for normal project-scale use. The
-  backend is written so you can swap in any other provider (Google Cloud
-  Translation, DeepL, Azure Translator, etc.) by changing `TRANSLATION_API_URL`
-  and `TRANSLATION_API_KEY` in `backend/.env` — see `routes/translate.js`.
+
+- Google Gemini API
+- `@google/genai` SDK
+- AI-powered translation generated through Gemini
 
 ## Project Structure
 
@@ -126,27 +125,20 @@ Open `backend/.env` and review the values:
 ```env
 PORT=5000
 CORS_ORIGIN=http://localhost:5173
-TRANSLATION_API_URL=https://api.mymemory.translated.net/get
-TRANSLATION_API_EMAIL=
-TRANSLATION_API_KEY=
+GEMINI_API_KEY=YOUR_GEMINI_API_KEY
 ```
 
 The defaults work out of the box with **no signup required**.
 
 ## API Setup
 
-This project ships pointed at the free MyMemory Translation API, which needs
-no key for normal use (about 5,000 words/day per IP).
+LinguBridge uses the Google Gemini API for AI-powered translation.
 
-- **Optional — raise your free quota:** register a free email at
-  <https://mymemory.translated.net/doc/keygen.php> and put it in
-  `TRANSLATION_API_EMAIL` to raise the daily limit to 50,000 words/day.
-- **Optional — use a different provider:** if you'd rather use Google Cloud
-  Translation, DeepL, Azure Translator, or a RapidAPI translation endpoint,
-  set `TRANSLATION_API_URL` accordingly and put your key in
-  `TRANSLATION_API_KEY`. Because the key is only ever read inside
-  `backend/routes/translate.js` on the server, it's never exposed to the
-  browser or bundled into frontend code.
+The Gemini API key is stored securely in the backend `.env` file and is never exposed in the frontend.
+
+For security, the actual API key must not be committed to GitHub. The project uses `.gitignore` to prevent `.env` files from being uploaded.
+
+The `backend/.env.example` file is provided as a safe configuration example.
 
 ## Local Running Instructions
 
